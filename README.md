@@ -1,4 +1,4 @@
-# 🚀 AROS ARTE DIGITAL — Website Institucional & Portfolio
+# 🚀 AROS ARTE DIGITAL - Website Institucional & Portfolio
 
 > **Design estratégico, tecnologia de ponta e foco obsessivo em resultados.**  
 > *Transformando ideias em experiências digitais extraordinárias.*
