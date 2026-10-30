@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AROS</title>
+<meta name="description" content="Transformamos ideias em experiências digitais extraordinárias. Sites, design e soluções web com padrão internacional.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+<link rel="shortcut icon" href="assets/imagens/favicon_io/favicon-32x32.png" type="image/x-icon">
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
+
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+</head>
+<body>
+
+<!-- ============================================================
+     CURSOR
+     ============================================================ -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- ============================================================
+     LOADER
+     ============================================================ -->
+<div id="loader">
+  <div class="loader-grid">
+    <div class="loader-grid-cell"></div>
+    <div class="loader-grid-cell"></div>
+    <div class="loader-grid-cell"></div>
+    <div class="loader-grid-cell"></div>
+    <div class="loader-grid-cell"></div>
+    <div class="loader-grid-cell"></div>
+    <div class="loader-grid-cell"></div>
+    <div class="loader-grid-cell"></div>
+    <div class="loader-grid-cell"></div>
+  </div>
+  <div class="loader-logo">Carregando <em>...</em></div>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="loader-bar"></div></div>
+  <div class="loader-pct" id="loader-pct">0%</div>
+</div>
+
+<!-- ============================================================
+     MOBILE NAV OVERLAY
+     ============================================================ -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#sobre"       onclick="closeMobileNav()">Sobre</a>
+  <a href="#servicos"    onclick="closeMobileNav()">Serviços</a>
+  <a href="#portfolio"   onclick="closeMobileNav()">Portfólio</a>
+  <a href="#diferenciais" onclick="closeMobileNav()">Diferenciais</a>
+  <a href="#cta"         onclick="closeMobileNav()">Contato</a>
+  <a href="https://blogaros.netlify.app/" target="_blank" rel="noopener noreferrer">Blog</a>
+  <div class="mobile-nav-footer">AROS ARTE DIGITAL · Salvador, BA</div>
+</div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav id="navbar">
+  <a class="nav-logo" href="#hero">
+    <div><img src="assets/imagens/favicon_io/favicon-32x32.png" alt=""></div>
+    
+  </a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#portfolio">Portfólio</a></li>
+    <li><a href="#diferenciais">Diferenciais</a></li>
+    <li><a href="#depoimentos">Depoimentos</a></li>
+    <li><a href="https://blogaros.netlify.app/" target="_blank" rel="noopener noreferrer">Blog</a></li>
+  </ul>
+  <a class="nav-cta" href="#cta">Orçamento</a>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Alternar tema" title="Alternar tema">
+    <svg class="theme-icon theme-icon--sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+    <svg class="theme-icon theme-icon--moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  </button>
+  <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section id="hero">
+  <canvas id="three-canvas"></canvas>
+
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Agência Digital Premium
+    </div>
+    <h1 class="hero-title">
+      <span class="line">Seu</span>
+      <span class="line">Negócio</span>
+      <span class="line"><em>Em Outro</em></span>
+      <span class="line">Nivel.</span>
+    </h1>
+    <p class="hero-sub">Design estratégico, tecnologia de ponta e foco obsessivo em resultados. Criamos a presença digital que sua marca merece com padrão internacional.</p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">
+        Orçamento
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="#portfolio" class="btn-secondary">Portfólio</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-mouse">
+      <div class="scroll-wheel"></div>
+    </div>
+    Scroll
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">150+</div>
+      <div class="stat-label">Projetos entregues</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Clientes satisfeitos</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">15+</div>
+      <div class="stat-label">Anos de experiência</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">24h</div>
+      <div class="stat-label">Suporte dedicado</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">0.8s</div>
+      <div class="stat-label">Tempo de carregamento</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">0.9s</div>
+      <div class="stat-label">Pós atendimento</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">0.10s</div>
+      <div class="stat-label">Formas de pagamento</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">0.60s</div>
+      <div class="stat-label">Canais de comunicação</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">72h</div>
+      <div class="stat-label">Tempo de entrega</div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item"><div class="marquee-dot"></div>UI/UX Design</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Identidade Visual</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Serviços Gráficos</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>SEO & Performance</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Branding Digital</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Desenvolvimento Web</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Motion Design</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Edição de Video</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Modelagem 3D</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Editoração Eletrônica</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Artefinalismo</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Social Media</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Arte para Indoor</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Comunicaçção Visual</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SOBRE
+     ============================================================ -->
+<section id="sobre">
+  <div class="orb orb-1"></div>
+  <div class="container">
+    <div class="sobre-grid">
+
+      <!-- Visual -->
+      <div class="sobre-visual reveal-left">
+        <div class="sobre-img-wrap">
+          <div class="sobre-abstract">
+
+            <!-- Browser chrome -->
+            <div class="mk-browser">
+              <div class="mk-browser-bar">
+                <div class="mk-dot mk-dot-r"></div>
+                <div class="mk-dot mk-dot-y"></div>
+                <div class="mk-dot mk-dot-g"></div>
+                <div class="mk-url-bar">arosartedigital.com.br</div>
+              </div>
+
+              <!-- Nav simulada -->
+              <div class="mk-nav">
+                <div class="mk-nav-logo"></div>
+                <div class="mk-nav-links">
+                  <div class="mk-nl"></div>
+                  <div class="mk-nl"></div>
+                  <div class="mk-nl"></div>
+                </div>
+                <div class="mk-nav-cta"></div>
+              </div>
+
+              <!-- Hero simulado -->
+              <div class="mk-hero">
+                <div class="mk-badge-sim"></div>
+                <div class="mk-h1-a"></div>
+                <div class="mk-h1-b"></div>
+                <div class="mk-h1-c"></div>
+                <div class="mk-p-a"></div>
+                <div class="mk-p-b"></div>
+                <div class="mk-btns">
+                  <div class="mk-btn-prim"></div>
+                  <div class="mk-btn-sec"></div>
+                </div>
+              </div>
+
+              <!-- Cards simulados -->
+              <div class="mk-cards">
+                <div class="mk-card">
+                  <div class="mk-card-icon"></div>
+                  <div class="mk-card-t"></div>
+                  <div class="mk-card-s"></div>
+                  <div class="mk-card-s mk-card-s2"></div>
+                </div>
+                <div class="mk-card mk-card-active">
+                  <div class="mk-card-icon mk-card-icon-accent"></div>
+                  <div class="mk-card-t mk-card-t-accent"></div>
+                  <div class="mk-card-s"></div>
+                  <div class="mk-card-s mk-card-s2"></div>
+                </div>
+                <div class="mk-card">
+                  <div class="mk-card-icon"></div>
+                  <div class="mk-card-t"></div>
+                  <div class="mk-card-s"></div>
+                  <div class="mk-card-s mk-card-s2"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Badge flutuante — aprovação -->
+            <div class="mk-float-badge mk-float-badge-1">
+              <div class="mk-float-icon">✓</div>
+              <div class="mk-float-text">
+                <span>Projeto aprovado</span>
+                <small>Cliente satisfeito</small>
+              </div>
+            </div>
+
+            <!-- Badge flutuante — performance -->
+            <div class="mk-float-badge mk-float-badge-2">
+              <div class="mk-float-icon mk-float-icon-p">⚡</div>
+              <div class="mk-float-text">
+                <span>100 / 100</span>
+                <small>Performance</small>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="sobre-img-accent"></div>
+        <div class="sobre-card-float">
+          <div class="sobre-card-float-num">15+</div>
+          <div class="sobre-card-float-label">Anos criando experiências digitais</div>
+        </div>
+      </div>
+
+      <!-- Conteúdo -->
+      <div class="sobre-content reveal-right">
+        <div class="section-eyebrow">Quem Somos</div>
+        <h2 class="section-title">Criatividade que<br>gera <em>resultados</em> reais</h2>
+        <p class="section-sub">A AROS ARTE DIGITAL é uma agência especializada em criar presenças digitais que impressionam e convertem. Unimos design de alto padrão com estratégia digital inteligente para elevar sua marca ao próximo nível seja você um empreendedor iniciante ou uma empresa consolidada.</p>
+        <div class="sobre-pilares">
+          <div class="pilar">
+            <div class="pilar-icon">🎯</div>
+            <h4>Missão</h4>
+            <p>Transformar a presença digital de empresas com soluções criativas e estratégicas.</p>
+          </div>
+          <div class="pilar">
+            <div class="pilar-icon">🚀</div>
+            <h4>Visão</h4>
+            <p>Ser referência nacional em design e experiências digitais de alto impacto.</p>
+          </div>
+          <div class="pilar">
+            <div class="pilar-icon">💎</div>
+            <h4>Qualidade</h4>
+            <p>Código limpo, design exclusivo e atenção obsessiva aos detalhes.</p>
+          </div>
+          <div class="pilar">
+            <div class="pilar-icon">🤝</div>
+            <h4>Parceria</h4>
+            <p>Suporte contínuo e relacionamento de longo prazo com cada cliente.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SERVIÇOS
+     ============================================================ -->
+<section id="servicos">
+  <div class="container">
+    <div class="servicos-header">
+      <div class="reveal">
+        <div class="section-eyebrow">O que fazemos</div>
+        <h2 class="section-title">Soluções digitais<br>completas para<br>sua <em>empresa</em></h2>
+      </div>
+      <p class="section-sub reveal" style="max-width:320px;text-align:right;">Do conceito à entrega, cada projeto é desenvolvido com excelência e dedicação total.</p>
+    </div>
+
+    <div class="servicos-grid">
+      <div class="service-card reveal">
+        <div class="service-card-line"></div>
+        <div class="service-num">01</div>
+        <div class="service-icon">🌐</div>
+        <h3>Criação de Sites</h3>
+        <p>Sites institucionais e corporativos com design sofisticado, performance otimizada e foco em conversão.</p>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card-line"></div>
+        <div class="service-num">02</div>
+        <div class="service-icon">⚡</div>
+        <h3>Landing Pages</h3>
+        <p>Páginas de alta conversão criadas para transformar visitantes em clientes com copywriting e design estratégico.</p>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card-line"></div>
+        <div class="service-num">03</div>
+        <div class="service-icon">🎨</div>
+        <h3>UI/UX Design</h3>
+        <p>Interfaces intuitivas e elegantes que encantam usuários e melhoram os resultados do seu negócio digital.</p>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card-line"></div>
+        <div class="service-num">04</div>
+        <div class="service-icon">✦</div>
+        <h3>Identidade Visual</h3>
+        <p>Branding completo que comunica os valores da sua marca com autenticidade, consistência e impacto visual.</p>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card-line"></div>
+        <div class="service-num">05</div>
+        <div class="service-icon">🛒</div>
+        <h3>Modelagem 3D</h3>
+        <p>Profissionais para impactar sua audiência, com qualidade e otimizada para maximizar seu posicionamento.</p>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card-line"></div>
+        <div class="service-num">06</div>
+        <div class="service-icon">📈</div>
+        <h3>SEO & Performance</h3>
+        <p>Otimização técnica e estratégica para seu site aparecer no topo do Google e carregar em tempo recorde.</p>
+        <div class="service-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PORTFÓLIO
+     ============================================================ -->
+<section id="portfolio">
+  <div class="container">
+    <div class="portfolio-header reveal">
+      <div class="section-eyebrow" style="justify-content:center;">Nossos Trabalhos</div>
+      <h2 class="section-title">Projetos que <em>falam</em><br>por si mesmos</h2>
+    </div>
+
+    <div class="portfolio-grid">
+      <div class="port-item reveal">
+        <div class="port-bg port-bg-1"></div>
+        <div class="port-grid"></div>
+        <div class="port-deco">Arc</div>
+        <div class="port-chip">Portifólios</div>
+        <div class="port-overlay">
+          <div class="port-tag">Pessoal · Comercial</div>
+          <div class="port-name">Curriculo Digital</div>
+          <a href="https://seuportifolio.netlify.app/" class="port-link" target="_blank">
+            Ver projeto
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="port-item reveal">
+        <div class="port-bg port-bg-2"></div>
+        <div class="port-grid"></div>
+        <div class="port-deco">Vx</div>
+        <div class="port-chip">Site Institucional</div>
+        <div class="port-overlay">
+          <div class="port-tag">Institucional · UI/UX</div>
+          <div class="port-name">SejaFIT</div>
+          <a href="https://sejafitnnes.netlify.app/" class="port-link" target="_blank">
+            Ver projeto
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="port-item reveal">
+        <div class="port-bg port-bg-3"></div>
+        <div class="port-grid"></div>
+        <div class="port-deco">Nx</div>
+        <div class="port-chip">Landing Page</div>
+        <div class="port-overlay">
+          <div class="port-tag">Landing Page · Educacional</div>
+          <div class="port-name">Barber Barbearia</div>
+          <a href="https://homebarbearia.netlify.app/" class="port-link" target="_blank">
+            Ver projeto
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="port-item reveal">
+        <div class="port-bg port-bg-4"></div>
+        <div class="port-grid"></div>
+        <div class="port-deco">Au</div>
+        <div class="port-chip">Profissionais Liberais</div>
+        <div class="port-overlay">
+          <div class="port-tag">Branding · Design</div>
+          <div class="port-name">RafaelNutri</div>
+          <a href="https://homenutre.netlify.app/" class="port-link" target="_blank">
+            Ver projeto
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="port-item reveal">
+        <div class="port-bg port-bg-5"></div>
+        <div class="port-grid"></div>
+        <div class="port-deco">Pt</div>
+        <div class="port-chip">Identidade Visual</div>
+        <div class="port-overlay">
+          <div class="port-tag">Digital · Impressa</div>
+          <div class="port-name">INDEX PRODUÇÃO MULTIMIDIA</div>
+          <a href="https://manualidv.netlify.app/" class="port-link" target="_blank">
+            Ver projeto
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROCESSO
+     ============================================================ -->
+<section id="processo">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-eyebrow" style="justify-content:center;">Como trabalhamos</div>
+      <h2 class="section-title">Do briefing ao<br><em>resultado</em> final</h2>
+    </div>
+    <div class="processo-grid">
+      <div class="processo-step reveal">
+        <div class="processo-connector"></div>
+        <div class="processo-step-num">01</div>
+        <h4>Descoberta</h4>
+        <p>Entendemos seu negócio, público e objetivos em profundidade antes de qualquer linha de código.</p>
+      </div>
+      <div class="processo-step reveal">
+        <div class="processo-connector"></div>
+        <div class="processo-step-num">02</div>
+        <h4>Estratégia</h4>
+        <p>Definimos arquitetura, wireframes e fluxo de usuário para garantir conversão e experiência.</p>
+      </div>
+      <div class="processo-step reveal">
+        <div class="processo-connector"></div>
+        <div class="processo-step-num">03</div>
+        <h4>Design & Dev</h4>
+        <p>Criamos com excelência técnica e criativa, com revisões contínuas em colaboração com você.</p>
+      </div>
+      <div class="processo-step reveal">
+        <div class="processo-step-num">04</div>
+        <h4>Lançamento</h4>
+        <p>Deploy profissional, testes de performance e suporte pós-lançamento para garantir o sucesso.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DIFERENCIAIS
+     ============================================================ -->
+<section id="diferenciais">
+  <div class="orb orb-2"></div>
+  <div class="container dif-container">
+
+    <!-- Coluna de texto — z-index acima do canvas -->
+    <div class="dif-text-col reveal-left">
+      <div class="section-eyebrow">Por que nos escolher</div>
+      <h2 class="section-title" style="margin-bottom:44px;">O padrão que<br>nos <em>diferencia</em></h2>
+      <div class="diferenciais-list">
+        <div class="diferencial-item">
+          <div class="dif-num">01</div>
+          <div class="dif-text">
+            <h4>Design Exclusivo &amp; Estratégico</h4>
+            <p>Cada projeto é criado do zero, com identidade própria alinhada aos objetivos do seu negócio. Sem templates genéricos.</p>
+          </div>
+        </div>
+        <div class="diferencial-item">
+          <div class="dif-num">02</div>
+          <div class="dif-text">
+            <h4>Foco Total em Conversão</h4>
+            <p>Não apenas sites bonitos criamos máquinas de conversão com base em dados, psicologia do usuário e boas práticas de UX.</p>
+          </div>
+        </div>
+        <div class="diferencial-item">
+          <div class="dif-num">03</div>
+          <div class="dif-text">
+            <h4>Tecnologia de Ponta</h4>
+            <p>Utilizamos as mais modernas tecnologias web para garantir performance, segurança e escalabilidade para o seu projeto.</p>
+          </div>
+        </div>
+        <div class="diferencial-item">
+          <div class="dif-num">04</div>
+          <div class="dif-text">
+            <h4>Suporte e Acompanhamento Contínuo</h4>
+            <p>Nossa parceria não termina na entrega. Acompanhamos, otimizamos e evoluímos seu projeto ao longo do tempo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Browser 3D — invade a coluna de texto intencionalmente -->
+    <div class="dif-browser-stage" id="dif-browser-stage">
+      <canvas id="browser-canvas"></canvas>
+      <div class="dif-browser-label">
+        <span class="dif-browser-label-dot"></span>
+        Tecnologia de ponta em cada projeto
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     DEPOIMENTOS
+     ============================================================ -->
+<section id="depoimentos">
+  <div class="container">
+    <div class="dep-header reveal">
+      <div class="section-eyebrow">Depoimentos</div>
+      <h2 class="section-title">O que nossos<br>clientes <em>dizem</em></h2>
+    </div>
+    <div class="dep-grid">
+      <div class="dep-card reveal">
+        <div class="dep-stars">★★★★★</div>
+        <p class="dep-quote">A AROS transformou completamente a presença digital da minha empresa. O site ficou incrível, moderno e as vendas aumentaram 80% em 3 meses. Recomendo sem hesitar.</p>
+        <div class="dep-author">
+          <div class="dep-avatar">RM</div>
+          <div>
+            <div class="dep-name">Ricardo Melo</div>
+            <div class="dep-role">CEO, Melo Empreendimentos</div>
+          </div>
+        </div>
+      </div>
+      <div class="dep-card reveal">
+        <div class="dep-stars">★★★★★</div>
+        <p class="dep-quote">Profissionalismo impecável do início ao fim. Entregaram além do combinado, com um nível de detalhe e cuidado que raramente se encontra no mercado digital.</p>
+        <div class="dep-author">
+          <div class="dep-avatar">CS</div>
+          <div>
+            <div class="dep-name">Carolina Santos</div>
+            <div class="dep-role">Fundadora, Beleza Pura Studio</div>
+          </div>
+        </div>
+      </div>
+      <div class="dep-card reveal">
+        <div class="dep-stars">★★★★★</div>
+        <p class="dep-quote">Nossa landing page converteu 3x mais do que a anterior. A equipe entende de estratégia, não só de design. Vale cada centavo investido no projeto.</p>
+        <div class="dep-author">
+          <div class="dep-avatar">FA</div>
+          <div>
+            <div class="dep-name">Felipe Andrade</div>
+            <div class="dep-role">Diretor, Andrade Consultoria</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA
+     ============================================================ -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-inner reveal-scale">
+      <div class="cta-eyebrow">Vamos criar juntos</div>
+      <h2 class="cta-title">Seu próximo projeto<br>começa <em>aqui</em></h2>
+      <p class="cta-sub">Fale conosco e descubra como podemos transformar a presença digital da sua empresa em um ativo poderoso de crescimento.</p>
+      <div class="cta-actions">
+        <a href="https://wa.me/5571983443744?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento." class="btn-whatsapp" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.11 1.524 5.84L0 24l6.335-1.654A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.013-1.372l-.36-.213-3.762.982 1.003-3.653-.234-.375A9.818 9.818 0 0112 2.182c5.426 0 9.818 4.392 9.818 9.818 0 5.427-4.392 9.818-9.818 9.818z"/>
+          </svg>
+          WhatsApp
+        </a>
+        <a href="mailto:arosartedigital@gmail.com" class="btn-secondary">
+         
+          E-mail
+        </a>
+      </div>
+
+      <div class="cta-trust">
+        <div class="trust-item"><span class="trust-icon">✓</span> Orçamento gratuito</div>
+        <div class="trust-item"><span class="trust-icon">✓</span> Resposta em até 24hs</div>
+        <div class="trust-item"><span class="trust-icon">✓</span> Sem compromisso</div>
+        <div class="trust-item"><span class="trust-icon">✓</span> 15 anos de mercado</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+
+      <!-- Brand -->
+      <div>
+        <div class="footer-logo">
+          <div><img src="assets/imagens/logo_footer/logo_footer_br.png" alt=""></div>
+        </div>
+        <p class="footer-desc">Transformamos ideias em experiências digitais extraordinárias. Design, estratégia e tecnologia para impulsionar sua marca.</p>
+        
+        <div class="social-links">
+          
+          <a href="https://www.instagram.com/aros_artedigital/" class="social-link" title="Instagram" target="_blank">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="5"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          
+          <a href="https://www.linkedin.com/in/aros-arte-digital-a255307b/" class="social-link" title="LinkedIn" target="_blank">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="4"/>
+              <path d="M7 10v7M7 7v.01M11 17v-3.5a2.5 2.5 0 015 0V17M11 10v7"/>
+            </svg>
+          </a>
+          
+          <a href="https://www.behance.net/aros_artedigital" class="social-link" title="Behance" target="_blank">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9.586 4.18H2v15.64h7.586c3.104 0 5.26-1.27 5.26-4.41 0-1.79-.93-3.07-2.56-3.7 1.18-.6 1.87-1.74 1.87-3.11 0-2.73-1.95-4.42-4.57-4.42zm-.48 6.02H4.96V6.73h3.88c1.14 0 2.16.57 2.16 1.73s-.77 1.74-1.9 1.74zm.33 6.07H4.96v-3.56h4.34c1.44 0 2.28.72 2.28 1.8 0 1.14-.88 1.76-2.1 1.76zm10.23-9.44h-5.04v1.46h5.04V6.85zm-2.52 3.32c-2.36 0-4.04 1.58-4.04 4.05s1.68 4.05 4.04 4.05c1.8 0 3.2-.88 3.78-2.36h-1.88c-.3.58-.98.93-1.9.93-1.22 0-2.04-.72-2.08-1.93h6.06c.02-.24.04-.46.04-.68 0-2.5-1.54-4.06-4.02-4.06zm-2.08 3.2c.12-1.02.86-1.76 2.08-1.76 1.18 0 1.86.72 1.96 1.76h-4.04z"/>
+            </svg>
+          </a>
+
+          <a href="https://www.youtube.com/channel/UCXXD2H4bmcGgZmCADGFiDuA" class="social-link" title="Youtube" target="_blank">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+            <polygon points="10 15 15 12 10 9 10 15"/>
+          </svg>
+          </a>
+          
+          <a href="https://wa.me/5571983443744" class="social-link" title="WhatsApp" target="_blank">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.11 1.524 5.84L0 24l6.335-1.654A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.013-1.372l-.36-.213-3.762.982 1.003-3.653-.234-.375A9.818 9.818 0 0112 2.182c5.426 0 9.818 4.392 9.818 9.818 0 5.427-4.392 9.818-9.818 9.818z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Navegação -->
+      <div class="footer-col">
+        <h5>Navegação</h5>
+        <ul>
+          <li><a href="#sobre">Sobre nós</a></li>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#portfolio">Portfólio</a></li>
+          <li><a href="#diferenciais">Diferenciais</a></li>
+          <li><a href="#depoimentos">Depoimentos</a></li>
+          <li><a href="#processo">Processo</a></li>
+        </ul>
+      </div>
+
+      <!-- Serviços -->
+      <div class="footer-col">
+        <h5>Serviços</h5>
+        <ul>
+          <li><a href="#">Criação de Sites</a></li>
+          <li><a href="#">Landing Pages</a></li>
+          <li><a href="#">UI/UX Design</a></li>
+          <li><a href="#">Identidade Visual</a></li>
+          <li><a href="#">Edição de Video</a></li>
+          <li><a href="#">SEO &amp; Performance</a></li>
+        </ul>
+      </div>
+
+      <!-- Contato -->
+      <div class="footer-col">
+        <h5>Contato</h5>
+        <div class="contact-info">
+          <div class="contact-row">
+            <span class="contact-icon">📍</span>
+            <span>Salvador, Bahia/Brasil</span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-icon">📱</span>
+            <span>(71) 9 8344-3744</span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-icon">✉️</span>
+            <span>arosartedigital@gmail.com.br</span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-icon">⏰</span>
+            <span>Seg a Sex, 09h às 17h</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 AROS ARTE DIGITAL</p>
+       <p class="footer-made">Feito com <span>♥</span> em Salvador, BA</p>
+    </div>
+
+    <div >
+     
+    </div>
+
+  </div>
+
+</footer>
+
+<!-- ============================================================
+     SOCIAL SPEED DIAL
+     ============================================================ -->
+<!-- ============================================================
+     FLOATING BUTTONS
+     ============================================================ -->
+<div class="float-btns" id="float-btns">
+
+  <!-- Social Speed Dial -->
+  <div class="social-dial" id="social-dial">
+    <div class="social-dial__items" id="sdial-items">
+      <a href="https://wa.me/5571983443744" class="sdial-btn sdial-btn--wa" target="_blank" rel="noopener" title="WhatsApp">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.11 1.524 5.84L0 24l6.335-1.654A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.013-1.372l-.36-.213-3.762.982 1.003-3.653-.234-.375A9.818 9.818 0 0112 2.182c5.426 0 9.818 4.392 9.818 9.818 0 5.427-4.392 9.818-9.818 9.818z"/>
+        </svg>
+      </a>
+      <a href="https://www.instagram.com/aros_artedigital/" class="sdial-btn sdial-btn--ig" target="_blank" rel="noopener" title="Instagram">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="5"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="https://www.youtube.com/channel/UCXXD2H4bmcGgZmCADGFiDuA" class="sdial-btn sdial-btn--yt" target="_blank" rel="noopener" title="YouTube">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+          <polygon points="10 15 15 12 10 9 10 15" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="https://www.facebook.com/arosartedigital" class="sdial-btn sdial-btn--fb" target="_blank" rel="noopener" title="Facebook">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+        </svg>
+      </a>
+    </div>
+    <button class="sdial-toggle" id="sdial-toggle" aria-label="Redes sociais">
+      <span class="sdial-toggle__icon sdial-toggle__icon--open">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/>
+        </svg>
+      </span>
+      <span class="sdial-toggle__icon sdial-toggle__icon--close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </span>
+    </button>
+  </div>
+
+  <!-- Voltar ao topo -->
+  <button
+    class="float-btn float-btn--top"
+    id="btn-top"
+    aria-label="Voltar ao topo"
+    title="Voltar ao topo"
+    onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+  >
+    <svg class="float-btn__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+</div>
+
+<script src="scripts.js"></script>
+</body>
+</html>
